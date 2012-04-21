@@ -95,3 +95,12 @@
       (:priority opts)            ; priority
       (wrap-callback callback)    ; callback
       (:max-retries opts))))      ; max-retries
+
+(defn chain
+  [rpc & rpcs]
+  (let [callback (last rpc)]
+    (apply rpcall (concat (butlast rpc)
+                          [(fn [& args]
+                             (apply callback args)
+                             (when (seq rpcs)
+                               (apply chain rpcs)))]))))

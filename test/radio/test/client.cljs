@@ -19,20 +19,45 @@
       (rc/rpcall
         'hello-world []
         (fn [err data]
-          (expect eq "Hello World!" data)
+          (expect eq js/String (type data))
           (rc/rpcall
             'a-number []
             (fn [err data]
-              (expect eq 33 data)
+              (expect eq js/Number (type data))
               (rc/rpcall
                 'a-string []
                 (fn [err data]
-                  (expect eq "thirty three" data)
+                  (expect eq js/String (type data))
                   (rc/rpcall
                     'a-ol []
                     (fn [err data]
                       (expect eq LazySeq (type data))
                       (<done>))))))))))))
+
+(defsuite chain-tests
+  (describe "chain"
+    :let [responses (atom [])]
+    (should* "chain calls"
+      (rc/chain
+        ['hello-world [] #(do
+                            (expect eq "Hello World!" %2)
+                            (swap! responses conj %2))]
+        ['a-number [] #(do
+                         (expect eq 33 %2)
+                         (swap! responses conj %2))]
+        ['a-string [] #(do
+                         (expect eq "thirty three" %2)
+                         (swap! responses conj %2))]
+        ['a-ol [] #(do
+                     (expect eq "ol" (.. (first %2) -tagName (toLowerCase)))
+                     (swap! responses conj (.. (first %2) -tagName (toLowerCase)))
+                     (expect eq
+                       ["Hello World!"
+                        33
+                        "thirty three"
+                        "ol"]
+                       @responses)
+                     (<done>))]))))
 
 (defn a-number 
   []
