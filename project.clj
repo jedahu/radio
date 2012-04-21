@@ -7,32 +7,19 @@
   [[org.clojure/clojure "1.4.0"]]
 
   :dev-dependencies
-  [[cst "0.1.0"]
-   [menodora "0.1.0"]]
+  [[cst "0.2.1"]
+   [menodora "0.1.1"]]
 
   :exclusions
   [org.apache.ant/ant]
 
   :plugins
-  [[lein-cst "0.1.0"]]
+  [[lein-cst "0.2.1"]]
 
   :cst
-  {:builds
-   {:dev {:output-dir ".cst-out/dev"
-          :optimizations nil
-          :pretty-print true}
-    :small {:output-dir ".cst-out/small"
-            :optimizations :simple
-            :pretty-print true}
-    :tiny {:output-dir ".cst-out/tiny"
-           :optimizations :advanced
-           :pretty-print false}}
-   :build :dev
+  {:suites [radio.test.client/reader-tests
+            radio.test.client/rpcall-tests]
    :runners
-   {:browser {:cljs menodora.runner.console/run-suites-browser
-              :proc radio.test/rpc-server}}
-   :runner :browser
-   :servers
-   {:browser radio.test/repl-server}
-   :server :browser
-   :repl-dir ".cst-repl"})
+   {:console-browser {:cljs menodora.runner.console/run-suites-browser
+                      :proc radio.test.server/rpc-server}}
+   :runner :console-browser})
