@@ -13,6 +13,7 @@
     [radio.client.readers :only (read-html)]
     [cljs.reader :only (read-string)])
   (:require
+    [goog.dom :as dom]
     [goog.events :as events]
     [goog.net.EventType :as event-type]
     [goog.net.XhrManager :as xhr-manager]
@@ -30,7 +31,7 @@
 (def response-readers
   "A map of Content-Type to response reader function."
   (atom {"application/clojure" read-string
-         "text/html"           read-html}))
+         "text/html"           dom/htmlToDocumentFragment}))
 
 (defn default-manager
   []
