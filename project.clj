@@ -1,5 +1,5 @@
 (defproject
-  radio "0.1.0"
+  radio "0.1.1-SNAPSHOT"
 
   :description "RPC from clojurescript to clojure"
 
