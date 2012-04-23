@@ -7,14 +7,14 @@
   [[org.clojure/clojure "1.4.0"]]
 
   :dev-dependencies
-  [[cst "0.2.2-SNAPSHOT"]
-   [menodora "0.1.2-SNAPSHOT"]]
+  [[cst "0.2.3"]
+   [menodora "0.1.3"]]
 
   :exclusions
   [org.apache.ant/ant]
 
   :plugins
-  [[lein-cst "0.2.2-SNAPSHOT"]]
+  [[lein-cst "0.2.3"]]
 
   :cst
   {:suites [radio.test.client/reader-tests
