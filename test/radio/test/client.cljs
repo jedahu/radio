@@ -5,13 +5,7 @@
     [menodora :only (defsuite describe should should* expect)])
   (:require
     [menodora.core :as mc]
-    [radio.client :as rc]
-    [radio.client.readers :as r]))
-
-(defsuite reader-tests
-  (describe "read-html"
-    (should "return a seq"
-      (expect eq LazySeq (type (r/read-html "abc"))))))
+    [radio.client :as rc]))
 
 (defsuite rpcall-tests
   (describe "Content-Type"

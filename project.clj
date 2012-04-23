@@ -17,8 +17,7 @@
   [[lein-cst "0.2.3"]]
 
   :cst
-  {:suites [radio.test.client/reader-tests
-            radio.test.client/rpcall-tests
+  {:suites [radio.test.client/rpcall-tests
             radio.test.client/chain-tests]
    :runners
    {:console-browser {:cljs menodora.runner.console/run-suites-browser

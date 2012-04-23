@@ -10,7 +10,6 @@
 ;;
 (ns radio.client
   (:use
-    [radio.client.readers :only (read-html)]
     [cljs.reader :only (read-string)])
   (:require
     [goog.dom :as dom]
