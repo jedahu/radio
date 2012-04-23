@@ -1,6 +1,6 @@
 (ns radio.test.client
   (:use
-    [menodora.predicates :only (eq)])
+    [menodora.predicates :only (eq type-eq is-a)])
   (:use-macros
     [menodora :only (defsuite describe should should* expect)])
   (:require
@@ -13,19 +13,19 @@
       (rc/rpcall
         'hello-world []
         (fn [err data]
-          (expect eq js/String (type data))
+          (expect type-eq js/String data)
           (rc/rpcall
             'a-number []
             (fn [err data]
-              (expect eq js/Number (type data))
+              (expect type-eq js/Number data)
               (rc/rpcall
                 'a-string []
                 (fn [err data]
-                  (expect eq js/String (type data))
+                  (expect type-eq js/String data)
                   (rc/rpcall
                     'a-ol []
                     (fn [err data]
-                      (expect eq LazySeq (type data))
+                      (expect is-a js/HTMLElement data)
                       (<done>))))))))))))
 
 (defsuite chain-tests
@@ -42,9 +42,9 @@
         ['a-string [] #(do
                          (expect eq "thirty three" %2)
                          (swap! responses conj %2))]
-        ['a-ol [] #(do
-                     (expect eq "ol" (.. (first %2) -tagName (toLowerCase)))
-                     (swap! responses conj (.. (first %2) -tagName (toLowerCase)))
+        ['a-ol [] #(let [tagname (.. %2 -tagName toLowerCase)]
+                     (expect eq "ol" tagname)
+                     (swap! responses conj tagname)
                      (expect eq
                        ["Hello World!"
                         33
